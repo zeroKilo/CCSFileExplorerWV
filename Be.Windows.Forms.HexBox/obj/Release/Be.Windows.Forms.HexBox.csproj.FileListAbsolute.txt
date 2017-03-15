@@ -1,0 +1,6 @@
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\bin\Release\Be.Windows.Forms.HexBox.dll
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\obj\Release\Be.Windows.Forms.HexBox.csprojResolveAssemblyReference.cache
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\obj\Release\Be.Windows.Forms.HexBox.resources
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\obj\Release\Be.Windows.Forms.Properties.Resources.resources
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\obj\Release\Be.Windows.Forms.HexBox.csproj.GenerateResource.Cache
+D:\CODE\c#\CCSFileExplorerWV\Be.Windows.Forms.HexBox\obj\Release\Be.Windows.Forms.HexBox.dll
