@@ -87,6 +87,7 @@ namespace CCSFileExplorerWV
             }
             SaveFileDialog d = new SaveFileDialog();
             d.Filter = "*.ccs|*.ccs";
+            d.FileName = ccsfile.header.name + ".ccs";
             if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ccsfile.Save(d.FileName);
@@ -147,6 +148,8 @@ namespace CCSFileExplorerWV
         {
             rtb1.Text = ccsfile.Info();
             treeView1.Nodes.Clear();
+            if (!ccsfile.isvalid)
+                return;
             TreeNode t = new TreeNode(ccsfile.header.name);
             foreach (FileEntry entry in ccsfile.files)
                 t.Nodes.Add(entry.ToNode());
@@ -169,7 +172,7 @@ namespace CCSFileExplorerWV
                 TreeNode file = obj.Parent;
                 FileEntry entryf = ccsfile.files[file.Index];
                 ObjectEntry entryo = entryf.objects[obj.Index];
-                hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].data);                
+                hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].data);
             }
             if (sel.Level == 1)
             {
@@ -196,11 +199,11 @@ namespace CCSFileExplorerWV
                             tabControl1.TabPages.Add(tabPage2);
                             comboBox1.SelectedIndex = 0;
                             tabControl1.SelectedTab = tabPage2;
-                            treeView1.Focus();
                         }
                         break;
                 }
             }
+            treeView1.Focus();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -209,6 +212,30 @@ namespace CCSFileExplorerWV
             if (n == -1 || currTexture == null || currPalettes == null || currPalettes.Count == 0)
                 return;
             pic1.Image = CCSFile.CreateImage(currPalettes[n].data, currTexture.data);
+        }
+
+        private void importRawToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TreeNode sel = treeView1.SelectedNode;
+            if (ccsfile == null || !ccsfile.isvalid || sel == null)
+                return;
+            if (sel.Level == 3)
+            {
+                TreeNode obj = sel.Parent;
+                TreeNode file = obj.Parent;
+                FileEntry entryf = ccsfile.files[file.Index];
+                ObjectEntry entryo = entryf.objects[obj.Index];
+                OpenFileDialog d = new OpenFileDialog();
+                d.Filter = "*.bin|*.bin";
+                if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    entryo.blocks[sel.Index].data = File.ReadAllBytes(d.FileName);
+                    ccsfile.Rebuild();
+                    ccsfile.Reload();
+                    RefreshStuff();
+                }
+                MessageBox.Show("Done.");
+            }
         }
     }
 }

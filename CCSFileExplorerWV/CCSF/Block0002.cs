@@ -45,5 +45,26 @@ namespace CCSFileExplorerWV
         {
             return new TreeNode(type.ToString("X8") + " Size: 0x" + data.Length.ToString("X"));
         }
+
+        public override void WriteBlock(Stream s)
+        {
+            WriteUInt32(s, type);
+            MemoryStream m = new MemoryStream();
+            m.Write(new byte[0x20], 0, 0x20);
+            foreach (string name in filenames)
+                WriteString(m, name, 0x20);
+            m.Write(new byte[0x20], 0, 0x20);
+            for (int i = 0; i < objcount; i++)
+            {
+                WriteString(m, objnames[i], 0x1E);
+                m.Write(BitConverter.GetBytes(indexes[i]), 0, 2);
+            }
+            WriteUInt32(m, 3);
+            WriteUInt32(m, 0);
+            WriteUInt32(s, (uint)(m.Length / 4));
+            WriteUInt32(s, filecount + 1);
+            WriteUInt32(s, objcount + 1);
+            s.Write(m.ToArray(), 0, (int)m.Length);
+        }
     }
 }

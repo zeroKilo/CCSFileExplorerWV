@@ -15,6 +15,7 @@ namespace CCSFileExplorerWV
         public byte[] data;
 
         public abstract TreeNode ToNode();
+        public abstract void WriteBlock(Stream s);
 
         public static Block ReadBlock(Stream s)
         {
@@ -55,6 +56,23 @@ namespace CCSFileExplorerWV
             while (buff[pos] != 0)
                 result += (char)buff[pos++];
             return result;
+        }
+
+        public static void WriteUInt32(Stream s, uint u)        
+        {
+            s.Write(BitConverter.GetBytes(u), 0, 4);
+        }
+
+        public static void WriteString(Stream s, string t, int minsize = -1)
+        {
+            MemoryStream m = new MemoryStream();
+            foreach (char c in t)
+                m.WriteByte((byte)c);
+            m.WriteByte(0);
+            if(minsize != -1)
+                while (m.Length != minsize)
+                    m.WriteByte(0);
+            s.Write(m.ToArray(), 0, (int)m.Length);
         }
     }
 }

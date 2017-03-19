@@ -22,5 +22,13 @@ namespace CCSFileExplorerWV
         {
             return new TreeNode(type.ToString("X8") + " Size: 0x" + data.Length.ToString("X"));
         }
+
+        public override void WriteBlock(Stream s)
+        {
+            WriteUInt32(s, type);
+            WriteUInt32(s, (uint)(data.Length / 4 + 51));
+            WriteUInt32(s, id);
+            s.Write(data, 0, data.Length);
+        }
     }
 }

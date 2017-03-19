@@ -11,9 +11,13 @@ features:
 
 - can repack .bin files from folders
 
-- can preview and export blocks as raw
+- can browse internal file and object structure
+
+- can preview, export and import blocks as raw
 
 - can preview and export bitmaps
+
+- can save CSS back
 
 
 screenshot: http://i.imgur.com/FJUqlSW.png

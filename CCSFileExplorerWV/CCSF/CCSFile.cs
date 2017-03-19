@@ -58,10 +58,22 @@ namespace CCSFileExplorerWV
 
         public void Rebuild()
         {
+            MemoryStream m = new MemoryStream();
+            header.WriteBlock(m);
+            toc.WriteBlock(m);
+            foreach (FileEntry file in files)
+                foreach (ObjectEntry obj in file.objects)
+                    foreach (Block b in obj.blocks)
+                        b.WriteBlock(m);
+            new BlockDefault(0xCCCC0005, 1, new byte[0]).WriteBlock(m);
+            new BlockDefault(0xCCCCFF01, 0xFFFFFFFF, new byte[0]).WriteBlock(m);
+            raw = m.ToArray();
         }
 
         public void Save(string filename)
         {
+            Rebuild();
+            File.WriteAllBytes(filename, raw);
         }
 
         public string Info()
