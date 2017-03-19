@@ -65,7 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BINHelper.cs" />
-    <Compile Include="CCSFile.cs" />
+    <Compile Include="CCSF\Block.cs" />
+    <Compile Include="CCSF\Block0001.cs" />
+    <Compile Include="CCSF\Block0002.cs" />
+    <Compile Include="CCSF\Block0005.cs" />
+    <Compile Include="CCSF\Block0300.cs" />
+    <Compile Include="CCSF\BlockDefault.cs" />
+    <Compile Include="CCSF\CCSFile.cs" />
+    <Compile Include="CCSF\FileEntry.cs" />
+    <Compile Include="CCSF\ObjectEntry.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
