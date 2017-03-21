@@ -39,6 +39,7 @@
             this.repackBINToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.selectedBlobToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportRawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importRawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exportAsBitmapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -52,7 +53,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.rtb1 = new System.Windows.Forms.RichTextBox();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
-            this.importRawToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openInImageImporterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -110,33 +111,33 @@
             // openCCSFileToolStripMenuItem
             // 
             this.openCCSFileToolStripMenuItem.Name = "openCCSFileToolStripMenuItem";
-            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.openCCSFileToolStripMenuItem.Text = "Open CCSFile...";
             this.openCCSFileToolStripMenuItem.Click += new System.EventHandler(this.openCCSFileToolStripMenuItem_Click);
             // 
             // saveCCSFileToolStripMenuItem
             // 
             this.saveCCSFileToolStripMenuItem.Name = "saveCCSFileToolStripMenuItem";
-            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.saveCCSFileToolStripMenuItem.Text = "Save CCSFile...";
             this.saveCCSFileToolStripMenuItem.Click += new System.EventHandler(this.saveCCSFileToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 6);
             // 
             // unpackBINToolStripMenuItem
             // 
             this.unpackBINToolStripMenuItem.Name = "unpackBINToolStripMenuItem";
-            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.unpackBINToolStripMenuItem.Text = "Unpack BIN...";
             this.unpackBINToolStripMenuItem.Click += new System.EventHandler(this.unpackBINToolStripMenuItem_Click);
             // 
             // repackBINToolStripMenuItem
             // 
             this.repackBINToolStripMenuItem.Name = "repackBINToolStripMenuItem";
-            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.repackBINToolStripMenuItem.Text = "Repack BIN...";
             this.repackBINToolStripMenuItem.Click += new System.EventHandler(this.repackBINToolStripMenuItem_Click);
             // 
@@ -146,7 +147,8 @@
             this.exportRawToolStripMenuItem,
             this.importRawToolStripMenuItem,
             this.toolStripMenuItem2,
-            this.exportAsBitmapToolStripMenuItem});
+            this.exportAsBitmapToolStripMenuItem,
+            this.openInImageImporterToolStripMenuItem});
             this.selectedBlobToolStripMenuItem.Name = "selectedBlobToolStripMenuItem";
             this.selectedBlobToolStripMenuItem.Size = new System.Drawing.Size(88, 20);
             this.selectedBlobToolStripMenuItem.Text = "Selected Node";
@@ -154,19 +156,26 @@
             // exportRawToolStripMenuItem
             // 
             this.exportRawToolStripMenuItem.Name = "exportRawToolStripMenuItem";
-            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exportRawToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.exportRawToolStripMenuItem.Text = "Export raw...";
             this.exportRawToolStripMenuItem.Click += new System.EventHandler(this.exportRawToolStripMenuItem_Click);
+            // 
+            // importRawToolStripMenuItem
+            // 
+            this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
+            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.importRawToolStripMenuItem.Text = "Import raw...";
+            this.importRawToolStripMenuItem.Click += new System.EventHandler(this.importRawToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(164, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(186, 6);
             // 
             // exportAsBitmapToolStripMenuItem
             // 
             this.exportAsBitmapToolStripMenuItem.Name = "exportAsBitmapToolStripMenuItem";
-            this.exportAsBitmapToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.exportAsBitmapToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.exportAsBitmapToolStripMenuItem.Text = "Export as bitmap...";
             this.exportAsBitmapToolStripMenuItem.Click += new System.EventHandler(this.exportAsBitmapToolStripMenuItem_Click);
             // 
@@ -297,12 +306,12 @@
             this.rtb1.Text = "";
             this.rtb1.WordWrap = false;
             // 
-            // importRawToolStripMenuItem
+            // openInImageImporterToolStripMenuItem
             // 
-            this.importRawToolStripMenuItem.Name = "importRawToolStripMenuItem";
-            this.importRawToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.importRawToolStripMenuItem.Text = "Import raw...";
-            this.importRawToolStripMenuItem.Click += new System.EventHandler(this.importRawToolStripMenuItem_Click);
+            this.openInImageImporterToolStripMenuItem.Name = "openInImageImporterToolStripMenuItem";
+            this.openInImageImporterToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.openInImageImporterToolStripMenuItem.Text = "Open in Image Importer";
+            this.openInImageImporterToolStripMenuItem.Click += new System.EventHandler(this.openInImageImporterToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -363,6 +372,7 @@
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.ToolStripMenuItem importRawToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openInImageImporterToolStripMenuItem;
     }
 }
 

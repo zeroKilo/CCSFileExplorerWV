@@ -237,5 +237,30 @@ namespace CCSFileExplorerWV
                 MessageBox.Show("Done.");
             }
         }
+
+        private void openInImageImporterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ccsfile == null || !ccsfile.isvalid || treeView1.SelectedNode == null)
+                return;
+            TreeNode sel = treeView1.SelectedNode;
+            if (sel.Level == 1)
+            {
+                string ext = Path.GetExtension(sel.Text).ToLower();
+                if (ext != ".bmp")
+                {
+                    MessageBox.Show("Not a bmp file!");
+                    return;
+                }
+                ImageImporter f = new ImageImporter();
+                f.index = sel.Index;
+                f.ccsfile = ccsfile;
+                f.ShowDialog();
+                if (f.exitok)
+                {
+                    ccsfile = f.ccsfile;
+                    RefreshStuff();
+                }
+            }
+        }
     }
 }

@@ -15,7 +15,9 @@ features:
 
 - can preview, export and import blocks as raw
 
-- can preview and export bitmaps
+- can preview, export and import generic bitmaps
+
+- color quantizer included for palette generation
 
 - can save CSS back
 
