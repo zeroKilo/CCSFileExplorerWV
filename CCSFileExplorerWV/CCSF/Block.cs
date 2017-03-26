@@ -35,6 +35,9 @@ namespace CCSFileExplorerWV
                 case 0xCCCC0300:
                     result = new Block0300(s);
                     break;
+                case 0xCCCC0800:
+                    result = new Block0800(s);
+                    break;
                 default:
                     result = new BlockDefault(s);
                     break;
@@ -73,6 +76,25 @@ namespace CCSFileExplorerWV
                 while (m.Length != minsize)
                     m.WriteByte(0);
             s.Write(m.ToArray(), 0, (int)m.Length);
+        }
+
+        public static uint[] validBlockTypes = new uint[] { 
+            0xCCCC0001, 0xCCCC0002, 0xCCCC0005, 0xCCCC0100,
+            0xCCCC0102, 0xCCCC0108, 0xCCCC0200, 0xCCCC0300,
+            0xCCCC0400, 0xCCCC0500, 0xCCCC0502, 0xCCCC0600,
+            0xCCCC0601, 0xCCCC0603, 0xCCCC0609, 0xCCCC0700,
+            0xCCCC0800, 0xCCCC0900, 0xCCCC0A00, 0xCCCC0B00,
+            0xCCCC0C00, 0xCCCC0E00, 0xCCCC1100, 0xCCCC1200,
+            0xCCCC1300, 0xCCCC1400, 0xCCCC1900, 0xCCCC1901,
+            0xCCCC2000, 0xCCCCFF01, 0xCCCC0202
+        };
+
+        public static bool isValidBlockType(uint u)
+        {
+            foreach (uint vu in validBlockTypes)
+                if (u == vu)
+                    return true;
+            return false;
         }
     }
 }

@@ -18,11 +18,15 @@ namespace CCSFileExplorerWV
         public string lastfolder;
         public List<Block> currPalettes;
         public Block currTexture;
+        public Block0800 currModel;
+        public float viewRotation = 0;
+
         public Form1()
         {
             InitializeComponent();
             if (tabControl1.TabPages.Contains(tabPage2))
                 tabControl1.TabPages.Remove(tabPage2);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Opaque, true);
         }
 
         private void unpackBINToolStripMenuItem_Click(object sender, EventArgs e)
@@ -72,6 +76,7 @@ namespace CCSFileExplorerWV
             if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 ccsfile = new CCSFile(File.ReadAllBytes(d.FileName));
+                AddRecent(d.FileName);
                 RefreshStuff();
             }
         }
@@ -161,8 +166,12 @@ namespace CCSFileExplorerWV
         {
             if (tabControl1.TabPages.Contains(tabPage2))
                 tabControl1.TabPages.Remove(tabPage2);
+            if (tabControl1.TabPages.Contains(tabPage3))
+                tabControl1.TabPages.Remove(tabPage3);
             hb1.ByteProvider = new DynamicByteProvider(new byte[0]);
+            timer1.Enabled = false;
             pic1.Image = null;
+            pic2.Image = null;
             if (ccsfile == null || !ccsfile.isvalid)
                 return;
             TreeNode sel = e.Node;
@@ -173,6 +182,21 @@ namespace CCSFileExplorerWV
                 FileEntry entryf = ccsfile.files[file.Index];
                 ObjectEntry entryo = entryf.objects[obj.Index];
                 hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].data);
+                if (entryo.blocks[sel.Index].type == 0xCCCC0800)
+                {
+                    currModel = (Block0800)entryo.blocks[sel.Index];
+                    currModel.ProcessData();
+                    if (!SceneHelper.init)
+                        SceneHelper.InitializeDevice(pic2);
+                    comboBox2.Items.Clear();
+                    for (int i = 0; i < currModel.models.Count; i++)
+                        comboBox2.Items.Add("Model " + (i + 1));
+                    if (comboBox2.Items.Count > 0)
+                        comboBox2.SelectedIndex = 0;
+                    timer1.Enabled = true;
+                    tabControl1.TabPages.Add(tabPage3);
+                    tabControl1.SelectedTab = tabPage3;
+                }
             }
             if (sel.Level == 1)
             {
@@ -261,6 +285,134 @@ namespace CCSFileExplorerWV
                     RefreshStuff();
                 }
             }
+        }
+
+        private void exportToObjToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ccsfile == null || !ccsfile.isvalid || treeView1.SelectedNode == null)
+                return;
+            TreeNode sel = treeView1.SelectedNode;
+            if (sel.Level == 3)
+            {
+                TreeNode obj = sel.Parent;
+                TreeNode file = obj.Parent;
+                FileEntry entryf = ccsfile.files[file.Index];
+                ObjectEntry entryo = entryf.objects[obj.Index];
+                hb1.ByteProvider = new DynamicByteProvider(entryo.blocks[sel.Index].data);
+                if (entryo.blocks[sel.Index].type == 0xCCCC0800)
+                {
+                    Block0800 mdl = (Block0800)entryo.blocks[sel.Index];
+                    mdl.ProcessData();
+                    SaveFileDialog d = new SaveFileDialog();
+                    d.Filter = "*.obj|*.obj";
+                    d.FileName = obj.Text + ".obj";
+                    if (d.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        string input = Microsoft.VisualBasic.Interaction.InputBox("Which Model to export? (1 - " + (mdl.models.Count) + ")", "Export Model", (comboBox2.SelectedIndex + 1).ToString());
+                        if (input != "")
+                        {
+                            mdl.SaveModel(Convert.ToInt32(input) - 1, d.FileName);
+                            MessageBox.Show("Done.");
+                        }
+                    }
+                }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            SceneHelper.Render();
+            if (SceneHelper.doRotate)
+            {
+                viewRotation += 1f;
+                SceneHelper.SetRotation360(viewRotation);
+            }
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int n = comboBox2.SelectedIndex;
+            if (n == -1 || currModel == null || !SceneHelper.init)
+                return;
+            currModel.CopyToScene(n);
+        }
+
+        private void pic2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                float p = e.Y / (float)pic2.Height - 0.5f;
+                SceneHelper.SetHeight(p);
+                SceneHelper.doRotate = false;
+                autoRotationOnToolStripMenuItem.Checked = false;
+                p = e.X / (float)pic2.Width;
+                SceneHelper.SetRotation360(p * 360f);
+            }
+            if (e.Button == MouseButtons.Right)
+            {
+                float p = e.Y / (float)pic2.Height + 0.001f;
+                p *= 3;
+                SceneHelper.SetZoomFactor(p);
+            }
+        }
+
+        private void pic2_Resize(object sender, EventArgs e)
+        {
+            SceneHelper.Resize();
+        }
+
+        private void autoRotationOnToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SceneHelper.doRotate = autoRotationOnToolStripMenuItem.Checked;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CheckRecent();
+        }
+
+        public void CheckRecent()
+        {
+            recentToolStripMenuItem.Enabled = false;
+            if (recentToolStripMenuItem.HasDropDownItems)
+                recentToolStripMenuItem.DropDownItems.Clear();
+            if (File.Exists("recent.txt"))
+            {
+                string[] lines = File.ReadAllLines("recent.txt");
+                foreach (string line in lines)
+                    if (line.Trim() != "")
+                    {
+                        ToolStripMenuItem item = new ToolStripMenuItem(line.Trim());
+                        item.Click += recentClick;
+                        recentToolStripMenuItem.DropDownItems.Add(item);
+                        recentToolStripMenuItem.Enabled = true;
+                    }
+            }
+        }
+
+        public void recentClick(object sender, EventArgs e)
+        {
+            ccsfile = new CCSFile(File.ReadAllBytes(((ToolStripMenuItem)sender).Text));
+            RefreshStuff();
+        }
+
+        public void AddRecent(string path)
+        {
+            if (!File.Exists("recent.txt"))
+                File.WriteAllLines("recent.txt", new string[0]);
+            string[] lines = File.ReadAllLines("recent.txt");
+            List<string> result = new List<string>();
+            result.Add(path);
+            int index = 0;
+            while (result.Count < 10 && index < lines.Length && lines[index] != path)
+                result.Add(lines[index++]);
+            File.WriteAllLines("recent.txt", result.ToArray());
+            CheckRecent();
+        }
+
+        private void wireframeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SceneHelper.wireframe = wireframeToolStripMenuItem.Checked;
         }
     }
 }

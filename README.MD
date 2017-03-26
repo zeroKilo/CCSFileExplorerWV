@@ -13,6 +13,8 @@ features:
 
 - can browse internal file and object structure
 
+- can preview and export model data as .obj
+
 - can preview, export and import blocks as raw
 
 - can preview, export and import generic bitmaps
@@ -22,4 +24,7 @@ features:
 - can save CSS back
 
 
-screenshot: http://i.imgur.com/FJUqlSW.png
+screenshots: 
+
+http://i.imgur.com/FJUqlSW.png
+http://i.imgur.com/cGu8hcd.png

@@ -52,6 +52,10 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="OpenTK">
+      <HintPath>dll\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="SimplePaletteQuantizer">
       <HintPath>dll\SimplePaletteQuantizer.dll</HintPath>
     </Reference>
@@ -73,10 +77,12 @@
     <Compile Include="CCSF\Block0002.cs" />
     <Compile Include="CCSF\Block0005.cs" />
     <Compile Include="CCSF\Block0300.cs" />
+    <Compile Include="CCSF\Block0800.cs" />
     <Compile Include="CCSF\BlockDefault.cs" />
     <Compile Include="CCSF\CCSFile.cs" />
     <Compile Include="CCSF\FileEntry.cs" />
     <Compile Include="CCSF\ObjectEntry.cs" />
+    <Compile Include="SceneHelper.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace CCSFileExplorerWV
 {
     public class BlockDefault : Block
