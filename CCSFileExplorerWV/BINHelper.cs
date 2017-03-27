@@ -10,7 +10,7 @@ namespace CCSFileExplorerWV
 {
     public static class BINHelper
     {
-        public static void UnpackToFolder(string filename, string folder, ToolStripProgressBar pb1 = null)
+        public static void UnpackToFolder(string filename, string folder, ToolStripProgressBar pb1 = null, ToolStripStatusLabel strip = null)
         {
             FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
             int pos = 0;
@@ -54,6 +54,7 @@ namespace CCSFileExplorerWV
                     if (pb1 != null)
                     {
                         pb1.Value = start;
+                        strip.Text = name;
                         Application.DoEvents();
                     }
                     buff = new byte[4];
@@ -61,11 +62,15 @@ namespace CCSFileExplorerWV
                 else
                     fs.Seek(0x7FC, SeekOrigin.Current);
             }
-            if (pb1 != null) pb1.Value = 0;
+            if (pb1 != null)
+            {
+                pb1.Value = 0;
+                strip.Text = "";
+            }
             fs.Close();
         }
 
-        public static void RepackFromFolder(string filename, string folder, bool include, ToolStripProgressBar pb1 = null)
+        public static void RepackFromFolder(string filename, string folder, bool include, ToolStripProgressBar pb1 = null, ToolStripStatusLabel strip = null)
         {
             string[] files = Directory.GetFiles(folder, "*.ccs", SearchOption.TopDirectoryOnly);
             FileStream fs = new FileStream(filename, FileMode.Create, FileAccess.Write);
@@ -78,6 +83,7 @@ namespace CCSFileExplorerWV
                 if (pb1 != null)
                 {
                     pb1.Value = count++;
+                    strip.Text = Path.GetFileNameWithoutExtension(file);
                     Application.DoEvents();
                 }
                 buff = File.ReadAllBytes(file);
@@ -87,13 +93,23 @@ namespace CCSFileExplorerWV
                 else
                     infilename = "";
                 buff = FileHelper.zipArray(buff, infilename);
+                buff[8] = 0;
+                buff[9] = 3;
                 m.Write(buff, 0, buff.Length);
                 while (m.Length % 0x800 != 0)
                     m.WriteByte(0);
+                m.Seek(-3, SeekOrigin.Current);
+                m.Read(buff, 0, 3);
+                if (buff[0] / 0x10 != 0 || buff[1] != 0 || buff[2] != 0)
+                    m.Write(new byte[0x800], 0, 0x800);
                 buff = m.ToArray();
                 fs.Write(buff, 0, buff.Length);
             }
-            if (pb1 != null) pb1.Value = 0;
+            if (pb1 != null)
+            {
+                pb1.Value = 0;
+                strip.Text = "";
+            }
             fs.Close();
         }
     }

@@ -49,6 +49,7 @@
             this.exportToObjToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoRotationOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -64,7 +65,7 @@
             this.rtb1 = new System.Windows.Forms.RichTextBox();
             this.fbd = new System.Windows.Forms.FolderBrowserDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.wireframeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.status = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -86,7 +87,8 @@
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.pb1});
+            this.pb1,
+            this.status});
             this.statusStrip1.Location = new System.Drawing.Point(0, 484);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(571, 22);
@@ -96,7 +98,7 @@
             // pb1
             // 
             this.pb1.Name = "pb1";
-            this.pb1.Size = new System.Drawing.Size(100, 16);
+            this.pb1.Size = new System.Drawing.Size(300, 16);
             // 
             // menuStrip1
             // 
@@ -127,46 +129,46 @@
             // openCCSFileToolStripMenuItem
             // 
             this.openCCSFileToolStripMenuItem.Name = "openCCSFileToolStripMenuItem";
-            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.openCCSFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openCCSFileToolStripMenuItem.Text = "Open CCSFile...";
             this.openCCSFileToolStripMenuItem.Click += new System.EventHandler(this.openCCSFileToolStripMenuItem_Click);
             // 
             // saveCCSFileToolStripMenuItem
             // 
             this.saveCCSFileToolStripMenuItem.Name = "saveCCSFileToolStripMenuItem";
-            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.saveCCSFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveCCSFileToolStripMenuItem.Text = "Save CCSFile...";
             this.saveCCSFileToolStripMenuItem.Click += new System.EventHandler(this.saveCCSFileToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(148, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // unpackBINToolStripMenuItem
             // 
             this.unpackBINToolStripMenuItem.Name = "unpackBINToolStripMenuItem";
-            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.unpackBINToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.unpackBINToolStripMenuItem.Text = "Unpack BIN...";
             this.unpackBINToolStripMenuItem.Click += new System.EventHandler(this.unpackBINToolStripMenuItem_Click);
             // 
             // repackBINToolStripMenuItem
             // 
             this.repackBINToolStripMenuItem.Name = "repackBINToolStripMenuItem";
-            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.repackBINToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.repackBINToolStripMenuItem.Text = "Repack BIN...";
             this.repackBINToolStripMenuItem.Click += new System.EventHandler(this.repackBINToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(148, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
             // 
             // recentToolStripMenuItem
             // 
             this.recentToolStripMenuItem.Enabled = false;
             this.recentToolStripMenuItem.Name = "recentToolStripMenuItem";
-            this.recentToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.recentToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.recentToolStripMenuItem.Text = "Recent";
             // 
             // selectedBlobToolStripMenuItem
@@ -240,6 +242,14 @@
             this.autoRotationOnToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.autoRotationOnToolStripMenuItem.Text = "Auto Rotation On";
             this.autoRotationOnToolStripMenuItem.Click += new System.EventHandler(this.autoRotationOnToolStripMenuItem_Click);
+            // 
+            // wireframeToolStripMenuItem
+            // 
+            this.wireframeToolStripMenuItem.CheckOnClick = true;
+            this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
+            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.wireframeToolStripMenuItem.Text = "Wireframe";
+            this.wireframeToolStripMenuItem.Click += new System.EventHandler(this.wireframeToolStripMenuItem_Click);
             // 
             // splitContainer1
             // 
@@ -407,13 +417,10 @@
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // wireframeToolStripMenuItem
+            // status
             // 
-            this.wireframeToolStripMenuItem.CheckOnClick = true;
-            this.wireframeToolStripMenuItem.Name = "wireframeToolStripMenuItem";
-            this.wireframeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
-            this.wireframeToolStripMenuItem.Text = "Wireframe";
-            this.wireframeToolStripMenuItem.Click += new System.EventHandler(this.wireframeToolStripMenuItem_Click);
+            this.status.Name = "status";
+            this.status.Size = new System.Drawing.Size(0, 17);
             // 
             // Form1
             // 
@@ -488,6 +495,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem recentToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wireframeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripStatusLabel status;
     }
 }
 

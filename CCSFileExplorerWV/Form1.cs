@@ -41,7 +41,7 @@ namespace CCSFileExplorerWV
                     lastfolder = fbd.SelectedPath + "\\";
                     string file = d.FileName;
                     this.Enabled = false;
-                    BINHelper.UnpackToFolder(d.FileName, lastfolder, pb1);
+                    BINHelper.UnpackToFolder(d.FileName, lastfolder, pb1, status);
                     this.Enabled = true;
                     MessageBox.Show("Done.");
                 }
@@ -62,7 +62,7 @@ namespace CCSFileExplorerWV
                 {
                     bool include = MessageBox.Show("Include filenames in GZipStreams (yes for areaserver, no for gamefile)?", "How to save", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes;
                     this.Enabled = false;
-                    BINHelper.RepackFromFolder(d.FileName, lastfolder, include, pb1);
+                    BINHelper.RepackFromFolder(d.FileName, lastfolder, include, pb1, status);
                     this.Enabled = true;
                     MessageBox.Show("Done.");
                 }
